@@ -336,7 +336,8 @@ class My_app(object):
             cursor.execute(sql)
 
             sql2 = 'SELECT * FROM scan WHERE codeBarText=? ;'
-            if not cursor.execute(sql2, (articles[1],)):
+            e = db.cursor()
+            if not e.execute(sql2, (articles[1],)):
 
                 # Inserrer les données scannées
     
