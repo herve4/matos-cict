@@ -331,7 +331,7 @@ class My_app(object):
             articles = self.search_customer(self.search)
             db = sqlite3.connect("materiels_db")
             sql = (
-                'CREATE TABLE IF NOT EXISTS scan (id_scan VARCHAR(20) PRIMARY KEY,codeBarText VARCHAR(20),date VARCHAR(20));')
+                'CREATE TABLE IF NOT EXISTS scan (id_scan INT(20) PRIMARY KEY,codeBarText VARCHAR(20),date VARCHAR(20));')
             cursor = db.cursor()
             cursor.execute(sql)
 
@@ -341,6 +341,7 @@ class My_app(object):
             date_joined = str(datetime.datetime.now())
             f = db.cursor()
             f.execute(sql_scan, (articles[0], articles[1], date_joined))
+
             db.commit()
             db.close()
             if articles:
