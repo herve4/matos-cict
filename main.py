@@ -338,9 +338,16 @@ class My_app(object):
             # Inserrer les données scannées
 
             sql_scan = 'INSERT INTO scan (id_scan,codeBarText,date) VALUES(?,?,?);'
+            sql_scan_update = 'UPDATE scan SET ,codeBarText=?,date=? WHERE id_scan=?;'
+             
             date_joined = str(datetime.datetime.now())
             f = db.cursor()
-            f.execute(sql_scan, (articles[0], articles[1], date_joined))
+            inser = f.execute(sql_scan, (articles[0], articles[1], date_joined))
+            if inser:
+                pass
+            else:
+                f.execute(sql_scan_update, (articles[1], date_joined,articles[0]))
+            
 
             db.commit()
             db.close()
