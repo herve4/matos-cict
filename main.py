@@ -162,7 +162,7 @@ class My_app(object):
                                 self.code_generate_finish = "".join(image)
 
                                 read = easyocr.Reader(['fr'])
-                                img_text = read.readtext(f"{"".join(image)}", detail=0)
+                                img_text = read.readtext("".join(image), detail=0)
                                 f = []
                                 for t in img_text:
                                     f.append(t)
