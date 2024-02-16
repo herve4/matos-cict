@@ -335,22 +335,22 @@ class My_app(object):
             cursor = db.cursor()
             cursor.execute(sql)
 
-            # Inserrer les données scannées
+            sql2 = 'SELECT * FROM scan WHERE codeBarText=? ;'
+            if not f.execute(sql2, (articles[1],))
 
-            sql_scan = 'INSERT INTO scan (id_scan,codeBarText,date) VALUES(?,?,?);'
-            sql_scan_update = 'UPDATE scan SET ,codeBarText=?,date=? WHERE id_scan=?;'
-             
-            date_joined = str(datetime.datetime.now())
-            f = db.cursor()
-            inser = f.execute(sql_scan, (articles[0], articles[1], date_joined))
-            if inser:
-                pass
-            else:
-                f.execute(sql_scan_update, (articles[1], date_joined,articles[0]))
+                # Inserrer les données scannées
+    
+                sql_scan = 'INSERT INTO scan (id_scan,codeBarText,date) VALUES(?,?,?);'
+               
+                 
+                date_joined = str(datetime.datetime.now())
+                f = db.cursor()
+                f.execute(sql_scan, (articles[0], articles[1], date_joined))
+            
             
 
-            db.commit()
-            db.close()
+                db.commit()
+                db.close()
             if articles:
 
                 l = []
