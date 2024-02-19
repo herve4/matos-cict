@@ -291,12 +291,12 @@ class My_app(object):
         conn.commit()
         conn.close()
 
-    def update_customer(self, des, frns, service, prix, date, code,ctq):
+    def update_customer(self, des, frns, service, prix, date, ctq,code):
         conn = sqlite3.connect('new_materiels_db')
         c = conn.cursor()
         c.execute(
             "UPDATE materiels SET designation = ?,fournisseurs = ? , service = ?,prix=?, date=?,ctq=? WHERE codeBarText = ?",
-            (des, frns, service, prix, date, code,ctq))
+            (des, frns, service, prix, date, ctq,code))
         conn.commit()
         conn.close()
 
@@ -393,7 +393,7 @@ class My_app(object):
                         image_up = col1.file_uploader("Importer une image")
                         btn = col1.button("Modifier", type="secondary", key=5)
                         if btn:
-                            self.update_customer(des, frns, service, prix, date, articles[1],articles[9])
+                            self.update_customer(des, frns, service, prix, date, ctq,articles[1])
                             st.success("L'article a bien été modfier !")
             else:
                 col2.warning("Aucune article trouvé pour ce code !")
