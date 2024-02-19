@@ -171,7 +171,7 @@ class My_app(object):
                                 print(int("".join(f)))
                                 db = sqlite3.connect("materiels_db")
                                 c = db.cursor()
-                                q = f"INSERT INTO materiels(id_materiels,designation,prix,fournisseurs,date,service,image,codeB,codeBarText,ctq) VALUES(?,?,?,?,?,?,?,?,?)"
+                                q = f"INSERT INTO materiels(id_materiels,designation,prix,fournisseurs,date,service,image,codeB,codeBarText,ctq) VALUES(?,?,?,?,?,?,?,?,?,?)"
                                 c.execute(q, (int(self.id),
                                               self.des,
                                               self.prix,
