@@ -72,7 +72,7 @@ class My_app(object):
         db = sqlite3.connect("materiels_db")
         cursor = db.cursor()
         sql = "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,codeB,ctq FROM materiels"
-        self.result = cursor.execute(sql)
+        self.result = cursor.execute(sql).fetchall()
         return self.result
 
     def My_tab(self):
