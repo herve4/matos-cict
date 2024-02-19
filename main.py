@@ -39,7 +39,7 @@ class My_app(object):
 
 
         self.search = col2.text_input("Rechercher par ID ou scanner un article",
-                                      placeholder="1000 ou 1233434509815")
+                                      placeholder="1000 ou 123434509815")
 
         list_mat = col2.button("Voir la liste des matériels")
         list_scan = col2.button("Voir le matériel scanné")
