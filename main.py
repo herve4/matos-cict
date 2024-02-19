@@ -116,7 +116,7 @@ class My_app(object):
         num1 = "0123456789"
         num2 = "0123456789"
         number = num1 + num2
-        length = 13
+        length = 12
         result = "".join(random.sample(number, length))
         return result
 
@@ -146,7 +146,7 @@ class My_app(object):
 
                                 self.generatedBarcode = []
                                 # set the barcode format
-                                barcode_format = barcode.get_barcode_class('ean')
+                                barcode_format = barcode.get_barcode_class('upc')
                                 # Barcode Number
                                 self.barcodeNumber = self.NumberGenerter()  # 12 digit
                                 generated = barcode_format(self.barcodeNumber, writer=ImageWriter())
