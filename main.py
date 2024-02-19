@@ -15,7 +15,7 @@ from openpyxl.workbook import Workbook
 
 
 def connexion():
-    db = sqlite3.connect("materiels_db")
+    db = sqlite3.connect("new_materiels_db")
     sql = (
         'CREATE TABLE IF NOT EXISTS materiels (id_materiels INT(15) PRIMARY KEY,designation VARCHAR(100),prix VARCHAR(10),fournisseurs '
         'VARCHAR(100), date VARCHAR(8), service VARCHAR(80),image VARCHAR(255),codeB VARCHAR(255), codeBarText VARCHAR(20),ctq VARCHAR(255));')
@@ -69,7 +69,7 @@ class My_app(object):
 
     def loadList(self):
 
-        db = sqlite3.connect("materiels_db")
+        db = sqlite3.connect("new_materiels_db")
         cursor = db.cursor()
         sql = "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,codeB FROM materiels"
         cursor.execute(sql)
@@ -168,7 +168,7 @@ class My_app(object):
                                     f.append(t)
                                     print(t)
                                 print(int("".join(f)))
-                                db = sqlite3.connect("materiels_db")
+                                db = sqlite3.connect("new_materiels_db")
                                 c = db.cursor()
                                 q = f"INSERT INTO materiels(id_materiels,designation,prix,fournisseurs,date,service,image,codeB,codeBarText,ctq) VALUES(?,?,?,?,?,?,?,?,?,?)"
                                 c.execute(q, (int(self.id),
@@ -208,7 +208,7 @@ class My_app(object):
         r = "SELECT id_scan,codeBarText,date FROM scan ;"
         # row = (code_text,)
         My_code_bar = self.search
-        db = sqlite3.connect("materiels_db")
+        db = sqlite3.connect("new_materiels_db")
         c = db.cursor()
         c.execute(r)
         result = c.fetchall()
@@ -217,7 +217,7 @@ class My_app(object):
         r = f"SELECT * FROM materiels WHERE codeBarText=?;"
         # row = (code_text,)
         My_code_bar = code
-        db = sqlite3.connect("materiels_db")
+        db = sqlite3.connect("new_materiels_db")
         c = db.cursor()
         c.execute(r, (My_code_bar,))
         result = c.fetchone()
@@ -285,14 +285,14 @@ class My_app(object):
             col2.warning("Aucune info trouvé pour ce code !")
 
     def delete_customer(self, ID):
-        conn = sqlite3.connect('materiels_db')
+        conn = sqlite3.connect('new_materiels_db')
         c = conn.cursor()
         c.execute("DELETE FROM materiels WHERE id_materiels=?", (ID,))
         conn.commit()
         conn.close()
 
     def update_customer(self, des, frns, service, prix, date, code,ctq):
-        conn = sqlite3.connect('materiels_db')
+        conn = sqlite3.connect('new_materiels_db')
         c = conn.cursor()
         c.execute(
             "UPDATE materiels SET designation = ?,fournisseurs = ? , service = ?,prix=?, date=?,ctq=? WHERE codeBarText = ?",
@@ -303,7 +303,7 @@ class My_app(object):
     def search_customer(self, ID):
 
         if len(self.search) == 4:
-            conn = sqlite3.connect('materiels_db')
+            conn = sqlite3.connect('new_materiels_db')
             c = conn.cursor()
             c.execute(
                 "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,ctq FROM materiels WHERE Id_materiels=?",
@@ -312,7 +312,7 @@ class My_app(object):
             conn.close()
             return article
         elif len(self.search) == 13:
-            conn = sqlite3.connect('materiels_db')
+            conn = sqlite3.connect('new_materiels_db')
             c = conn.cursor()
             c.execute(
                 "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,image,codeB,ctq FROM materiels WHERE codeBarText=?",
@@ -331,7 +331,7 @@ class My_app(object):
             col2.dataframe(df)
         elif len(self.search) == 13:
             articles = self.search_customer(self.search)
-            db = sqlite3.connect("materiels_db")
+            db = sqlite3.connect("new_materiels_db")
             sql = (
                 'CREATE TABLE IF NOT EXISTS scan (id_scan INT(20) PRIMARY KEY,codeBarText VARCHAR(20),date VARCHAR(20));')
             cursor = db.cursor()
