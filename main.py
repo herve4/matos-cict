@@ -71,7 +71,7 @@ class My_app(object):
 
         db = sqlite3.connect("materiels_db")
         cursor = db.cursor()
-        sql = "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,codeB FROM materiels"
+        sql = "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,codeB,ctq FROM materiels"
         self.result = cursor.execute(sql)
         return self.result
 
@@ -81,7 +81,7 @@ class My_app(object):
             m.append(item)
         df = pd.DataFrame(self.loadList(),
                           columns=["ID", "Code", "Désignation", "Prix", "Fournisseurs", "Date d'arrivée", "Service",
-                                   "Image"])
+                                   "Image","Caractéristiques"])
         col2.title("Liste de matériels")
 
         # self.col2.dataframe(df)
