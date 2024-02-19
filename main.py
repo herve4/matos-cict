@@ -76,9 +76,7 @@ class My_app(object):
         return self.result
 
     def My_tab(self):
-        m = []
-        for item in self.loadList():
-            m.append(item)
+        
         df = pd.DataFrame(self.loadList(),
                           columns=["ID", "Code", "Désignation", "Prix", "Fournisseurs", "Date d'arrivée", "Service",
                                    "Image","Caractéristiques"])
