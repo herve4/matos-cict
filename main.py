@@ -18,7 +18,7 @@ def connexion():
     db = sqlite3.connect("materiels_db")
     sql = (
         'CREATE TABLE IF NOT EXISTS materiels (id_materiels INT(15) PRIMARY KEY,designation VARCHAR(100),prix VARCHAR(10),fournisseurs '
-        'VARCHAR(100), date VARCHAR(8), service VARCHAR(80),image VARCHAR(255),codeB VARCHAR(255), codeBarText VARCHAR(20));')
+        'VARCHAR(100), date VARCHAR(8), service VARCHAR(80),image VARCHAR(255),codeB VARCHAR(255), codeBarText VARCHAR(20),ctq VARCHAR(255));')
     cursor = db.cursor()
     cursor.execute(sql)
 
@@ -129,6 +129,7 @@ class My_app(object):
             self.frns = st.text_input("Fournisseurs")
             self.date = st.date_input("Date")
             self.service = st.text_input("Service")
+            self.ctq = st.text_input("Caractéristique")
             self.image_up = st.file_uploader("Importer une image", key=6)
             self.btn = st.form_submit_button("Enregistrer", type="secondary")
             if self.btn:
@@ -170,7 +171,7 @@ class My_app(object):
                                 print(int("".join(f)))
                                 db = sqlite3.connect("materiels_db")
                                 c = db.cursor()
-                                q = f"INSERT INTO materiels(id_materiels,designation,prix,fournisseurs,date,service,image,codeB,codeBarText) VALUES(?,?,?,?,?,?,?,?,?)"
+                                q = f"INSERT INTO materiels(id_materiels,designation,prix,fournisseurs,date,service,image,codeB,codeBarText,ctq) VALUES(?,?,?,?,?,?,?,?,?)"
                                 c.execute(q, (self.id,
                                               self.des,
                                               self.prix,
@@ -179,7 +180,8 @@ class My_app(object):
                                               self.service,
                                               stringio,
                                               "".join(image),
-                                              int("".join(f))
+                                              int("".join(f)),
+                                              self.ctq
                                               ))
 
                                 db.commit()
@@ -248,6 +250,7 @@ class My_app(object):
                     "Prix": result[2],
                     "Fournisseurs": result[3],
                     "Service": result[5],
+                    "Caractéristiques": result[9],
                     "Date d'arrivée": result[4],
                     "Scanné le": date_joined,
                     "Image": result[7]
@@ -289,12 +292,12 @@ class My_app(object):
         conn.commit()
         conn.close()
 
-    def update_customer(self, des, frns, service, prix, date, code):
+    def update_customer(self, des, frns, service, prix, date, code,ctq):
         conn = sqlite3.connect('materiels_db')
         c = conn.cursor()
         c.execute(
-            "UPDATE materiels SET designation = ?,fournisseurs = ? , service = ?,prix=?, date=? WHERE codeBarText = ?",
-            (des, frns, service, prix, date, code))
+            "UPDATE materiels SET designation = ?,fournisseurs = ? , service = ?,prix=?, date=?,ctq=? WHERE codeBarText = ?",
+            (des, frns, service, prix, date, code,ctq))
         conn.commit()
         conn.close()
 
@@ -304,7 +307,7 @@ class My_app(object):
             conn = sqlite3.connect('materiels_db')
             c = conn.cursor()
             c.execute(
-                "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service FROM materiels WHERE Id_materiels=?",
+                "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,ctq FROM materiels WHERE Id_materiels=?",
                 (ID,))
             article = c.fetchall()
             conn.close()
@@ -313,7 +316,7 @@ class My_app(object):
             conn = sqlite3.connect('materiels_db')
             c = conn.cursor()
             c.execute(
-                "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,image,codeB FROM materiels WHERE codeBarText=?",
+                "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,image,codeB,ctq FROM materiels WHERE codeBarText=?",
                 (ID,))
             article = c.fetchone()
 
@@ -325,7 +328,7 @@ class My_app(object):
             articles = self.search_customer(self.search)
             df = pd.DataFrame(articles,
                               columns=["ID", "Code", "Désignation", "Prix", "Fournisseurs", "Date d'arrivée",
-                                       "Service"])
+                                       "Service","Caractéristiques"])
             col2.dataframe(df)
         elif len(self.search) == 13:
             articles = self.search_customer(self.search)
@@ -366,6 +369,7 @@ class My_app(object):
                     col2.write(f":red[Prix de l'article] : {articles[3]} F CFA")
                     col2.write(f":red[Fournisseurs] : {articles[4]}")
                     col2.write(f":red[Service] : {articles[6]}")
+                    col2.write(f":red[Caractéristiques] : {articles[9]}")
                     col2.write(f":red[Date d'arrivée] : {articles[5]}")
                     col2.image(articles[8])
                     self.add_code_and_display()
@@ -386,6 +390,7 @@ class My_app(object):
                         frns = col1.text_input("Fournisseurs", value=articles[4])
                         date = col1.date_input("Date", key=3)
                         service = col1.text_input("Service", value=articles[6])
+                        ctq = col1.text_input("Caractéristiques", value=articles[9])
                         image_up = col1.file_uploader("Importer une image")
                         btn = col1.button("Modifier", type="secondary", key=5)
                         if btn:
