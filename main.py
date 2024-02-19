@@ -393,7 +393,7 @@ class My_app(object):
                         image_up = col1.file_uploader("Importer une image")
                         btn = col1.button("Modifier", type="secondary", key=5)
                         if btn:
-                            self.update_customer(des, frns, service, prix, date, articles[1])
+                            self.update_customer(des, frns, service, prix, date, articles[1],articles[9])
                             st.success("L'article a bien été modfier !")
             else:
                 col2.warning("Aucune article trouvé pour ce code !")
