@@ -116,7 +116,7 @@ class My_app(object):
         num1 = "0123456789"
         num2 = "0123456789"
         number = num1 + num2
-        length = 13
+        length = 12
         result = "".join(random.sample(number, length))
         return result
 
@@ -146,7 +146,7 @@ class My_app(object):
 
                                 self.generatedBarcode = []
                                 # set the barcode format
-                                barcode_format = barcode.get_barcode_class('ean13')
+                                barcode_format = barcode.get_barcode_class('upc')
                                 # Barcode Number
                                 self.barcodeNumber = self.NumberGenerter()  # 12 digit
                                 generated = barcode_format(self.barcodeNumber, writer=ImageWriter())
@@ -311,7 +311,7 @@ class My_app(object):
             article = c.fetchall()
             conn.close()
             return article
-        elif len(self.search) == 13:
+        elif len(self.search) == 12:
             conn = sqlite3.connect('new_materiels_db')
             c = conn.cursor()
             c.execute(
@@ -329,7 +329,7 @@ class My_app(object):
                               columns=["ID", "Code", "Désignation", "Prix", "Fournisseurs", "Date d'arrivée",
                                        "Service","Caractéristiques"])
             col2.dataframe(df)
-        elif len(self.search) == 13:
+        elif len(self.search) == 12:
             articles = self.search_customer(self.search)
             db = sqlite3.connect("new_materiels_db")
             sql = (
