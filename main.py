@@ -129,7 +129,7 @@ class My_app(object):
             self.frns = st.text_input("Fournisseurs")
             self.date = st.date_input("Date")
             self.service = st.text_input("Service")
-            self.ctq = st.text_input("Caractéristique")
+            self.ctq = st.text_input("Caractéristiques")
             self.image_up = st.file_uploader("Importer une image", key=6)
             self.btn = st.form_submit_button("Enregistrer", type="secondary")
             if self.btn:
