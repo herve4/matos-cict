@@ -18,7 +18,7 @@ def connexion():
     db = sqlite3.connect("new_materiels_db")
     sql = (
         'CREATE TABLE IF NOT EXISTS materiels (id_materiels INT(15) PRIMARY KEY,designation VARCHAR(100),prix VARCHAR(10),fournisseurs '
-        'VARCHAR(100), date VARCHAR(8), service VARCHAR(80),image VARCHAR(255),codeB VARCHAR(255), codeBarText VARCHAR(20),ctq VARCHAR(255));')
+        'VARCHAR(100), date VARCHAR(8), service VARCHAR(80),image VARCHAR(255) null,codeB VARCHAR(255), codeBarText VARCHAR(20),ctq VARCHAR(255)), qte INT(25));')
     cursor = db.cursor()
     cursor.execute(sql)
 
@@ -71,7 +71,7 @@ class My_app(object):
 
         db = sqlite3.connect("new_materiels_db")
         cursor = db.cursor()
-        sql = "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,codeB,ctq FROM materiels"
+        sql = "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,codeB,ctq,qte FROM materiels"
         cursor.execute(sql)
         self.result = cursor.fetchall()
         return self.result
@@ -80,7 +80,7 @@ class My_app(object):
         
         df = pd.DataFrame(self.loadList(),
                           columns=["ID", "Code", "Désignation", "Prix", "Fournisseurs", "Date d'arrivée", "Service",
-                                   "Image","Caractéristiques"])
+                                   "Image","Caractéristiques","Quantité"])
         col2.title("Liste de matériels")
 
         # self.col2.dataframe(df)
@@ -125,6 +125,7 @@ class My_app(object):
             self.header = st.header("Ajouter un article")
             self.des = st.text_input("Désignation")
             self.prix = st.number_input("Prix")
+            self.qte = st.number_input("Quantité")
             self.frns = st.text_input("Fournisseurs")
             self.date = st.date_input("Date")
             self.service = st.text_input("Service")
@@ -168,9 +169,10 @@ class My_app(object):
                                     f.append(t)
                                     print(t)
                                 print(int("".join(f)))
+                                image.save(path_file)
                                 db = sqlite3.connect("new_materiels_db")
                                 c = db.cursor()
-                                q = f"INSERT INTO materiels(id_materiels,designation,prix,fournisseurs,date,service,image,codeB,codeBarText,ctq) VALUES(?,?,?,?,?,?,?,?,?,?)"
+                                q = f"INSERT INTO materiels(id_materiels,designation,prix,fournisseurs,date,service,image,codeB,codeBarText,ctq,qte) VALUES(?,?,?,?,?,?,?,?,?,?,?)"
                                 c.execute(q, (int(self.id),
                                               self.des,
                                               self.prix,
@@ -180,7 +182,8 @@ class My_app(object):
                                               stringio,
                                               "".join(image),
                                               int("".join(f)),
-                                              self.ctq
+                                              self.ctq,
+                                              self.qte
                                               ))
 
                                 db.commit()
@@ -238,7 +241,7 @@ class My_app(object):
             # col2.write(result[3])
             # col2.write(result[5])
             # col2.image(result[6])
-            results = [result[1], result[4], result[2], result[3], result[5], date_joined, result[7]]
+            results = [result[1], result[4], result[2], result[3], result[5], date_joined, result[7],result[10]]
             # self.code_bar_img.setText(f"- Code barre d'article : {result[8]}")
             print(results)
 
@@ -252,7 +255,8 @@ class My_app(object):
                     "Caractéristiques": result[9],
                     "Date d'arrivée": result[4],
                     "Scanné le": date_joined,
-                    "Image": result[7]
+                    "Image": result[7],
+                    "Quantité":result[10]
                 }
             }
             r = []
@@ -291,12 +295,12 @@ class My_app(object):
         conn.commit()
         conn.close()
 
-    def update_customer(self, des, frns, service, prix, date, ctq,code):
+    def update_customer(self, des, frns, service, prix, date, ctq,code,qte):
         conn = sqlite3.connect('new_materiels_db')
         c = conn.cursor()
         c.execute(
-            "UPDATE materiels SET designation = ?,fournisseurs = ? , service = ?,prix=?, date=?,ctq=? WHERE codeBarText = ?",
-            (des, frns, service, prix, date, ctq,code))
+            "UPDATE materiels SET designation = ?,fournisseurs = ? , service = ?,prix=?, date=?,ctq=?,qte=? WHERE codeBarText = ?",
+            (des, frns, service, prix, date, ctq,code,qte))
         conn.commit()
         conn.close()
 
@@ -306,7 +310,7 @@ class My_app(object):
             conn = sqlite3.connect('new_materiels_db')
             c = conn.cursor()
             c.execute(
-                "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,ctq FROM materiels WHERE Id_materiels=?",
+                "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,ctq,qte FROM materiels WHERE Id_materiels=?",
                 (ID,))
             article = c.fetchall()
             conn.close()
@@ -315,7 +319,7 @@ class My_app(object):
             conn = sqlite3.connect('new_materiels_db')
             c = conn.cursor()
             c.execute(
-                "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,image,codeB,ctq FROM materiels WHERE codeBarText=?",
+                "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,image,codeB,ctq,qte FROM materiels WHERE codeBarText=?",
                 (ID,))
             article = c.fetchone()
 
@@ -327,7 +331,7 @@ class My_app(object):
             articles = self.search_customer(self.search)
             df = pd.DataFrame(articles,
                               columns=["ID", "Code", "Désignation", "Prix", "Fournisseurs", "Date d'arrivée",
-                                       "Service","Caractéristiques"])
+                                       "Service","Caractéristiques","Quantité"])
             col2.dataframe(df)
         elif len(self.search) == 12:
             articles = self.search_customer(self.search)
@@ -365,6 +369,7 @@ class My_app(object):
                     col2.image(articles[7])
                     col2.write(f":red[ID] : {articles[0]}")
                     col2.write(f":red[Code barre] : {articles[1]}")
+                    col2.write(f":red[Quantité] : {articles[10]}")
                     col2.write(f":red[Prix de l'article] : {articles[3]} F CFA")
                     col2.write(f":red[Fournisseurs] : {articles[4]}")
                     col2.write(f":red[Service] : {articles[6]}")
