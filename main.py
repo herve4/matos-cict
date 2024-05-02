@@ -315,7 +315,7 @@ class My_app(object):
             conn = sqlite3.connect('new_materiels_db')
             c = conn.cursor()
             c.execute(
-                "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,ctq,qte FROM materiels_add_code WHERE Id_materiels=?",
+                "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,ctq,qte FROM materiels WHERE Id_materiels=?",
                 (ID,))
             article = c.fetchall()
             conn.close()
@@ -324,7 +324,7 @@ class My_app(object):
             conn = sqlite3.connect('new_materiels_db')
             c = conn.cursor()
             c.execute(
-                "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,image,codeB,ctq,qte FROM materiels_add_code WHERE codeBarText=?",
+                "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,image,codeB,ctq,qte FROM materiels WHERE codeBarText=?",
                 (ID,))
             article = c.fetchone()
 
@@ -338,7 +338,7 @@ class My_app(object):
                               columns=["ID", "Code", "Désignation", "Prix", "Fournisseurs", "Date d'arrivée",
                                        "Service","Caractéristiques","Quantité"])
             col2.dataframe(df)
-        elif int(self.search) == articles[1] :
+        elif int(self.search) == articles[0] :
             articles = self.search_customer(self.search)
             db = sqlite3.connect("new_materiels_db")
             # db = sqlite3.connect("new_materiels_db")
@@ -347,9 +347,9 @@ class My_app(object):
             # cursor = db.cursor()
             # cursor.execute(sql)
 
-            sql2 = 'SELECT * FROM materiels_add_code WHERE codeBarText=? ;'
+            sql2 = 'SELECT * FROM materiels WHERE codeBarText=? ;'
             e = db.cursor()
-            if not e.execute(sql2, (articles[1],)):
+            if not e.execute(sql2, (articles[],)):
 
                 # Inserrer les données scannées
     
