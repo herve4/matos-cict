@@ -75,8 +75,8 @@ class My_app(object):
 
         db = sqlite3.connect("new_materiels_db")
         cursor = db.cursor()
-        sql = "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,codeB,ctq,qte FROM materiels_add_code"
-        cursor.execute(sql)
+        add_new_sql = "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,codeB,ctq,qte FROM materiels"
+        cursor.execute(add_new_sql)
         self.result = cursor.fetchall()
         return self.result
 
@@ -212,7 +212,7 @@ class My_app(object):
             col1.warning("Veuillez insérer une désignation")
 
     def list_scann(self):
-        r = "SELECT id_scan,codeBarText,date FROM materiels_add_code ;"
+        r = "SELECT id_materiels,codeBarText,date FROM materiels_add_code ;"
         # row = (code_text,)
         My_code_bar = self.search
         db = sqlite3.connect("new_materiels_db")
