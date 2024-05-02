@@ -22,6 +22,12 @@ def connexion():
     cursor = db.cursor()
     cursor.execute(sql)
 
+     sql_add_code = (
+        'CREATE TABLE IF NOT EXISTS materiels_add_code (id_materiels INT(15) PRIMARY KEY,designation VARCHAR(100),prix VARCHAR(10),fournisseurs '
+        'VARCHAR(100), date VARCHAR(8), service VARCHAR(80),image VARCHAR(255) null,codeB VARCHAR(255), codeBarText VARCHAR(20),ctq VARCHAR(255), qte INT(25));')
+    cursor = db.cursor()
+    cursor.execute(sql_add_code)
+
 
 connexion()
 title = st.set_page_config(page_title="Matériels CICT", layout="wide", page_icon="Vb8grj_d_400x400.ico")
@@ -219,10 +225,9 @@ class My_app(object):
     def windows_play_code_bar_select(self, code):
         r = f"SELECT * FROM materiels WHERE codeBarText=?;"
         # row = (code_text,)
-        My_code_bar = code
         db = sqlite3.connect("new_materiels_db")
         c = db.cursor()
-        c.execute(r, (My_code_bar,))
+        c.execute(r, (code,))
         result = c.fetchone()
 
         return result
@@ -243,6 +248,25 @@ class My_app(object):
             # col2.image(result[6])
             results = [result[1], result[4], result[2], result[3], result[5], date_joined, result[7],result[10]]
             # self.code_bar_img.setText(f"- Code barre d'article : {result[8]}")
+
+             db = sqlite3.connect("new_materiels_db")
+                                c = db.cursor()
+                                q = f"INSERT INTO materiels_add_code(id_materiels,designation,prix,fournisseurs,date,service,image,codeB,codeBarText,ctq,qte) VALUES(?,?,?,?,?,?,?,?,?,?,?)"
+                                c.execute(q, (int(result[0]),
+                                              result[1],
+                                              result[2],
+                                              result[3],
+                                              date_joined,
+                                              result[5],
+                                              result[6],
+                                              result[7],
+                                              result[8],
+                                              result[9],
+                                              result[10]
+                                              ))
+
+                                db.commit()
+                                db.close()
             print(results)
 
             data = {
