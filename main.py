@@ -340,6 +340,7 @@ class My_app(object):
             col2.dataframe(df)
         elif len(self.search) == 12:
             articles = self.search_customer(self.search)
+            db = sqlite3.connect("new_materiels_db")
             # db = sqlite3.connect("new_materiels_db")
             # sql = (
             #     'CREATE TABLE IF NOT EXISTS scan (id_scan INT(20) PRIMARY KEY,codeBarText VARCHAR(20),date VARCHAR(20));')
@@ -354,7 +355,7 @@ class My_app(object):
     
                 #sql_scan = 'INSERT INTO scan (id_scan,codeBarText,date) VALUES(?,?,?);'
                 date_joined = str(datetime.datetime.now())
-                db = sqlite3.connect("new_materiels_db")
+               
                 c = db.cursor()
                 q = f"INSERT INTO materiels_add_code(id_materiels,designation,prix,fournisseurs,date,service,image,codeB,codeBarText,ctq,qte) VALUES(?,?,?,?,?,?,?,?,?,?,?)"
                 c.execute(q, (int(result[0]),
