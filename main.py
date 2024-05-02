@@ -320,7 +320,7 @@ class My_app(object):
             article = c.fetchall()
             conn.close()
             return article
-        elif len(self.search) == 12:
+        elif len(self.search) <= 12:
             conn = sqlite3.connect('new_materiels_db')
             c = conn.cursor()
             c.execute(
@@ -338,7 +338,7 @@ class My_app(object):
                               columns=["ID", "Code", "Désignation", "Prix", "Fournisseurs", "Date d'arrivée",
                                        "Service","Caractéristiques","Quantité"])
             col2.dataframe(df)
-        elif self.search == articles[1] :
+        elif self.search == len(articles["codeBarText"]) or self.search == len(articles["Id_materiels"]) :
             articles = self.search_customer(self.search)
             db = sqlite3.connect("new_materiels_db")
             # db = sqlite3.connect("new_materiels_db")
