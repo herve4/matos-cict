@@ -338,7 +338,7 @@ class My_app(object):
                               columns=["ID", "Code", "Désignation", "Prix", "Fournisseurs", "Date d'arrivée",
                                        "Service","Caractéristiques","Quantité"])
             col2.dataframe(df)
-        elif int(self.search) == articles[0] :
+        elif self.search == articles[1] :
             articles = self.search_customer(self.search)
             db = sqlite3.connect("new_materiels_db")
             # db = sqlite3.connect("new_materiels_db")
