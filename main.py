@@ -351,7 +351,7 @@ class My_app(object):
 
             sql2 = 'SELECT * FROM materiels WHERE codeBarText=? ;'
             e = db.cursor()
-            if not e.execute(sql2, (articles[0],)):
+            if not e.execute(sql2, (articles[1],)):
 
                 # Inserrer les données scannées
     
@@ -385,7 +385,7 @@ class My_app(object):
 
                 # db.commit()
                 # db.close()
-            elif not e.execute(sql2, (articles[1],)):
+            elif not e.execute(sql2, (articles[0],)):
                 # Inserrer les données scannées
         
                     #sql_scan = 'INSERT INTO scan (id_scan,codeBarText,date) VALUES(?,?,?);'
