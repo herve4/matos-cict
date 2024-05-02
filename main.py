@@ -386,6 +386,39 @@ class My_app(object):
 
                 # db.commit()
                 # db.close()
+        elif not e.execute(sql2, (articles[1],)):
+            # Inserrer les données scannées
+    
+                #sql_scan = 'INSERT INTO scan (id_scan,codeBarText,date) VALUES(?,?,?);'
+                date_joined = str(datetime.datetime.now())
+               
+                c = db.cursor()
+                q = f"INSERT INTO materiels_add_code(id_materiels,designation,prix,fournisseurs,date,service,image,codeB,codeBarText,ctq,qte) VALUES(?,?,?,?,?,?,?,?,?,?,?)"
+                c.execute(q, (int(result[0]),
+                              articles[1],
+                              articles[2],
+                              articles[3],
+                              date_joined,
+                              articles[5],
+                              articles[6],
+                              articles[7],
+                              articles[8],
+                              articles[9],
+                              articles[10]
+                              ))
+    
+                db.commit()
+                db.close()
+               
+                 
+                
+                # f = db.cursor()
+                # f.execute(sql_scan, (articles[0], articles[1], date_joined))
+            
+            
+
+                # db.commit()
+                # db.close()
             if articles:
 
                 l = []
