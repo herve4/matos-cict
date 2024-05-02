@@ -22,7 +22,7 @@ def connexion():
     cursor = db.cursor()
     cursor.execute(sql)
 
-     sql_add_code = (
+    sql_add_code = (
         'CREATE TABLE IF NOT EXISTS materiels_add_code (id_materiels INT(15) PRIMARY KEY,designation VARCHAR(100),prix VARCHAR(10),fournisseurs '
         'VARCHAR(100), date VARCHAR(8), service VARCHAR(80),image VARCHAR(255) null,codeB VARCHAR(255), codeBarText VARCHAR(20),ctq VARCHAR(255), qte INT(25));')
     cursor = db.cursor()
