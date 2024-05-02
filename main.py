@@ -62,7 +62,7 @@ class My_app(object):
            for item in self.list_scann():
                m.append(item)
            with col2.container(border=True):
-               df = pd.DataFrame(self.list_scann,columns=["Id","Code barre","Date"])
+               df = pd.DataFrame(self.list_scann(),columns=["Id","Code barre","Date"])
                st.title("Matériels scannés")
 
                st.table(df)
@@ -212,7 +212,7 @@ class My_app(object):
             col1.warning("Veuillez insérer une désignation")
 
     def list_scann(self):
-        r = "SELECT id_scan,codeBarText,date FROM scan ;"
+        r = "SELECT id_scan,codeBarText,date FROM materiels_add_code ;"
         # row = (code_text,)
         My_code_bar = self.search
         db = sqlite3.connect("new_materiels_db")
