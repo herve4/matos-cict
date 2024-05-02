@@ -338,7 +338,7 @@ class My_app(object):
                               columns=["ID", "Code", "Désignation", "Prix", "Fournisseurs", "Date d'arrivée",
                                        "Service","Caractéristiques","Quantité"])
             col2.dataframe(df)
-        elif len(self.search) == 12:
+        elif int(self.search) == articles[1] :
             articles = self.search_customer(self.search)
             db = sqlite3.connect("new_materiels_db")
             # db = sqlite3.connect("new_materiels_db")
@@ -411,7 +411,7 @@ class My_app(object):
                         btn_modif = st.button("Modfifier cet article")
                         btn_suppr = st.button("Supprimer cet article",type="primary")
                         if btn_suppr:
-                            self.delete_customer(articles[0])
+                            self.delete_customer(articles[1])
                     if self.modif:
                         header = col1.header("Modification de l'article")
                         des = col1.text_input("Désignation", value=articles[2])
