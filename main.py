@@ -349,7 +349,7 @@ class My_app(object):
 
             sql2 = 'SELECT * FROM materiels WHERE codeBarText=? ;'
             e = db.cursor()
-            if not e.execute(sql2, (articles[0],)):
+            if not e.execute(sql2, (articles[2],)):
 
                 # Inserrer les données scannées
     
