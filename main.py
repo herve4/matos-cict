@@ -247,24 +247,7 @@ class My_app(object):
             results = [result[1], result[4], result[2], result[3], result[5], date_joined, result[7],result[10]]
             # self.code_bar_img.setText(f"- Code barre d'article : {result[8]}")
 
-            db = sqlite3.connect("new_materiels_db")
-            c = db.cursor()
-            q = f"INSERT INTO materiels_add_code(id_materiels,designation,prix,fournisseurs,date,service,image,codeB,codeBarText,ctq,qte) VALUES(?,?,?,?,?,?,?,?,?,?,?)"
-            c.execute(q, (int(result[0]),
-                          result[1],
-                          result[2],
-                          result[3],
-                          date_joined,
-                          result[5],
-                          result[6],
-                          result[7],
-                          result[8],
-                          result[9],
-                          result[10]
-                          ))
-
-            db.commit()
-            db.close()
+           
             print(results)
 
             data = {
@@ -332,7 +315,7 @@ class My_app(object):
             conn = sqlite3.connect('new_materiels_db')
             c = conn.cursor()
             c.execute(
-                "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,ctq,qte FROM materiels WHERE Id_materiels=?",
+                "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,ctq,qte FROM materiels_add_code WHERE Id_materiels=?",
                 (ID,))
             article = c.fetchall()
             conn.close()
@@ -341,7 +324,7 @@ class My_app(object):
             conn = sqlite3.connect('new_materiels_db')
             c = conn.cursor()
             c.execute(
-                "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,image,codeB,ctq,qte FROM materiels WHERE codeBarText=?",
+                "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,image,codeB,ctq,qte FROM materiels_add_code WHERE codeBarText=?",
                 (ID,))
             article = c.fetchone()
 
@@ -357,29 +340,48 @@ class My_app(object):
             col2.dataframe(df)
         elif len(self.search) == 12:
             articles = self.search_customer(self.search)
-            db = sqlite3.connect("new_materiels_db")
-            sql = (
-                'CREATE TABLE IF NOT EXISTS scan (id_scan INT(20) PRIMARY KEY,codeBarText VARCHAR(20),date VARCHAR(20));')
-            cursor = db.cursor()
-            cursor.execute(sql)
+            # db = sqlite3.connect("new_materiels_db")
+            # sql = (
+            #     'CREATE TABLE IF NOT EXISTS scan (id_scan INT(20) PRIMARY KEY,codeBarText VARCHAR(20),date VARCHAR(20));')
+            # cursor = db.cursor()
+            # cursor.execute(sql)
 
-            sql2 = 'SELECT * FROM scan WHERE codeBarText=? ;'
-            e = db.cursor()
+            # sql2 = 'SELECT * FROM materiels_add_code WHERE codeBarText=? ;'
+            # e = db.cursor()
             if not e.execute(sql2, (articles[1],)):
 
                 # Inserrer les données scannées
     
-                sql_scan = 'INSERT INTO scan (id_scan,codeBarText,date) VALUES(?,?,?);'
+                #sql_scan = 'INSERT INTO scan (id_scan,codeBarText,date) VALUES(?,?,?);'
+                date_joined = str(datetime.datetime.now())
+                db = sqlite3.connect("new_materiels_db")
+                c = db.cursor()
+                q = f"INSERT INTO materiels_add_code(id_materiels,designation,prix,fournisseurs,date,service,image,codeB,codeBarText,ctq,qte) VALUES(?,?,?,?,?,?,?,?,?,?,?)"
+                c.execute(q, (int(result[0]),
+                              articles[1],
+                              articles[2],
+                              articles[3],
+                              date_joined,
+                              articles[5],
+                              articles[6],
+                              articles[7],
+                              articles[8],
+                              articles[9],
+                              articles[10]
+                              ))
+    
+                db.commit()
+                db.close()
                
                  
-                date_joined = str(datetime.datetime.now())
-                f = db.cursor()
-                f.execute(sql_scan, (articles[0], articles[1], date_joined))
+                
+                # f = db.cursor()
+                # f.execute(sql_scan, (articles[0], articles[1], date_joined))
             
             
 
-                db.commit()
-                db.close()
+                # db.commit()
+                # db.close()
             if articles:
 
                 l = []
