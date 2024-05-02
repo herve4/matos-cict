@@ -75,7 +75,7 @@ class My_app(object):
 
         db = sqlite3.connect("new_materiels_db")
         cursor = db.cursor()
-        sql = "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,codeB,ctq,qte FROM materiels"
+        sql = "SELECT id_materiels,codeBarText,designation,prix,fournisseurs,date,service,codeB,ctq,qte FROM materiels_add_code"
         cursor.execute(sql)
         self.result = cursor.fetchall()
         return self.result
