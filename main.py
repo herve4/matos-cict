@@ -247,24 +247,24 @@ class My_app(object):
             results = [result[1], result[4], result[2], result[3], result[5], date_joined, result[7],result[10]]
             # self.code_bar_img.setText(f"- Code barre d'article : {result[8]}")
 
-             db = sqlite3.connect("new_materiels_db")
-                                c = db.cursor()
-                                q = f"INSERT INTO materiels_add_code(id_materiels,designation,prix,fournisseurs,date,service,image,codeB,codeBarText,ctq,qte) VALUES(?,?,?,?,?,?,?,?,?,?,?)"
-                                c.execute(q, (int(result[0]),
-                                              result[1],
-                                              result[2],
-                                              result[3],
-                                              date_joined,
-                                              result[5],
-                                              result[6],
-                                              result[7],
-                                              result[8],
-                                              result[9],
-                                              result[10]
-                                              ))
+            db = sqlite3.connect("new_materiels_db")
+            c = db.cursor()
+            q = f"INSERT INTO materiels_add_code(id_materiels,designation,prix,fournisseurs,date,service,image,codeB,codeBarText,ctq,qte) VALUES(?,?,?,?,?,?,?,?,?,?,?)"
+            c.execute(q, (int(result[0]),
+                          result[1],
+                          result[2],
+                          result[3],
+                          date_joined,
+                          result[5],
+                          result[6],
+                          result[7],
+                          result[8],
+                          result[9],
+                          result[10]
+                          ))
 
-                                db.commit()
-                                db.close()
+            db.commit()
+            db.close()
             print(results)
 
             data = {
