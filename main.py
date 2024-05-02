@@ -48,8 +48,7 @@ class My_app(object):
         list_mat = col2.button("Voir la liste des matériels")
         list_scan = col2.button("Voir le matériel scanné")
         
-        if not self.search_affcihe_result:
-               col2.warning("Aucune article trouvé pour ce code !")
+
         if list_mat:
             self.My_tab()
 
