@@ -346,8 +346,8 @@ class My_app(object):
             # cursor = db.cursor()
             # cursor.execute(sql)
 
-            # sql2 = 'SELECT * FROM materiels_add_code WHERE codeBarText=? ;'
-            # e = db.cursor()
+            sql2 = 'SELECT * FROM materiels_add_code WHERE codeBarText=? ;'
+            e = db.cursor()
             if not e.execute(sql2, (articles[1],)):
 
                 # Inserrer les données scannées
