@@ -62,7 +62,7 @@ class My_app(object):
            for item in self.list_scann():
                m.append(item)
            with col2.container(border=True):
-               df = pd.DataFrame(self.list_scann(),columns=["Id","Code barre","Date"])
+               df = pd.DataFrame(self.list_scann,columns=["Id","Code barre","Date"])
                st.title("Matériels scannés")
 
                st.table(df)
