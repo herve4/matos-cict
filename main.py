@@ -428,6 +428,8 @@ class My_app(object):
                         if btn:
                             self.update_customer(des, frns, service, prix, date, ctq,articles[1])
                             st.success("L'article a bien été modfier !")
+                else:
+                    col2.warning("Aucune article trouvé pour ce code !")
                  
 
         
